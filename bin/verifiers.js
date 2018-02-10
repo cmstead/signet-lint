@@ -21,10 +21,13 @@ function testSignature(signatureNode, signet) {
 }
 
 function testType(typeNode, signet) {
-    if (signet.isType(typeNode.value)) {
-        return null;
-    } else {
-        const message = `Type name ${typeNode.value} is not a known, or registered type.`;
+    const typeValue = typeNode.value;
+
+    try{
+        signet.isTypeOf(typeValue)('');
+        return null
+    } catch (e) {
+        const message = `Type name ${typeValue} is not a known, or registered type.`;
         return buildError(message, typeNode.loc);
     }
 }

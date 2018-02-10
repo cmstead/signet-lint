@@ -22,10 +22,19 @@ function verifyTypeCheck(node, signet) {
     return verifyOrWarn(typeValue, verifier);
 }
 
+function verifyAliasDeclaration(node, signet) {
+    const typeValue = node.arguments[1];
+    const verifier = () => testType(typeValue, signet);
+
+    return verifyOrWarn(typeValue, verifier);
+}
+
 const isEnforcement = checkPropertyName('enforce');
 const isSigning = checkPropertyName('sign');
 const isTypeCheck = checkPropertyName('isTypeOf');
+const isVerifyValueType = checkPropertyName('verifyValueType');
 const isSubtypeDeclaration = checkPropertyName('subtype');
+const isAliasDeclaration = checkPropertyName('alias');
 
 const isDefault = () => true;
 const defaultCheck = () => null;
@@ -34,6 +43,8 @@ const verificationMethods = [
     [isEnforcement, verifyEnforce],
     [isSigning, verifyEnforce],
     [isTypeCheck, verifyTypeCheck],
+    [isVerifyValueType, verifyTypeCheck],
+    [isAliasDeclaration, verifyAliasDeclaration],
     [isSubtypeDeclaration, verifyTypeCheck],
     [isDefault, defaultCheck]
 ];

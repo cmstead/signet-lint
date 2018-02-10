@@ -4,11 +4,11 @@
         "errorLevel": "warn",
         "loc": {
             "start": {
-                "line": 12,
+                "line": 13,
                 "column": 30
             },
             "end": {
-                "line": 12,
+                "line": 13,
                 "column": 38
             }
         }

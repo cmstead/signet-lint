@@ -14,15 +14,29 @@
         }
     },
     {
+        "error": "Type name slurm is not a known, or registered type.",
+        "errorLevel": "error",
+        "loc": {
+            "start": {
+                "line": 9,
+                "column": 23
+            },
+            "end": {
+                "line": 9,
+                "column": 30
+            }
+        }
+    },
+    {
         "error": "Unable to verify non-string type information",
         "errorLevel": "warn",
         "loc": {
             "start": {
-                "line": 12,
+                "line": 13,
                 "column": 30
             },
             "end": {
-                "line": 12,
+                "line": 13,
                 "column": 38
             }
         }
@@ -32,12 +46,26 @@
         "errorLevel": "error",
         "loc": {
             "start": {
-                "line": 13,
+                "line": 14,
                 "column": 32
             },
             "end": {
-                "line": 13,
+                "line": 14,
                 "column": 39
+            }
+        }
+    },
+    {
+        "error": "Type name slurm is not a known, or registered type.",
+        "errorLevel": "error",
+        "loc": {
+            "start": {
+                "line": 18,
+                "column": 36
+            },
+            "end": {
+                "line": 18,
+                "column": 43
             }
         }
     },
@@ -46,11 +74,11 @@
         "errorLevel": "error",
         "loc": {
             "start": {
-                "line": 19,
+                "line": 23,
                 "column": 8
             },
             "end": {
-                "line": 19,
+                "line": 23,
                 "column": 31
             }
         }

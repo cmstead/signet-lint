@@ -1,19 +1,23 @@
 'use strict';
 
-(function (typeFactory) {
-    const isNode = typeof module !== 'undefined' && typeof module.exports !== undefined;
+const signet = require('signet')();
 
-    if(isNode) {
-        const signet = require('signet')();
+signet.alias('source', 'string');
+signet.alias('errorMessage', 'string');
+signet.alias('verifier', 'function');
+signet.alias('methodName', 'string');
 
-        module.exports = typeFactory(signet);
-    } else if (typeof signet === 'object') {
-        typeFactory(signet);
-    } else {
-        throw new Error('Cannot create types without signet.');
-    }
+require('./type-data/astTypes')(signet);
 
-})(function (signet) {
-
-    return signet;
+signet.defineDuckType('signet', {
+    enforce: 'function',
+    isType: 'function'
 });
+
+signet.defineDuckType('lintError', {
+    error: 'errorMessage',
+    errorLevel: 'formattedString<(warn|error)>',
+    loc: 'astLoc'
+});
+
+module.exports = signet;

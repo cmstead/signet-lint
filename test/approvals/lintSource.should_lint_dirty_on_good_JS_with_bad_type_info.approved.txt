@@ -1,0 +1,58 @@
+[
+    {
+        "error": "Type name slurm is not a known, or registered type.",
+        "errorLevel": "error",
+        "loc": {
+            "start": {
+                "line": 8,
+                "column": 15
+            },
+            "end": {
+                "line": 8,
+                "column": 22
+            }
+        }
+    },
+    {
+        "error": "Unable to verify non-string type information",
+        "errorLevel": "warn",
+        "loc": {
+            "start": {
+                "line": 12,
+                "column": 30
+            },
+            "end": {
+                "line": 12,
+                "column": 38
+            }
+        }
+    },
+    {
+        "error": "Type name flarb is not a known, or registered type.",
+        "errorLevel": "error",
+        "loc": {
+            "start": {
+                "line": 13,
+                "column": 32
+            },
+            "end": {
+                "line": 13,
+                "column": 39
+            }
+        }
+    },
+    {
+        "error": "The given type \"foo\" does not exist",
+        "errorLevel": "error",
+        "loc": {
+            "start": {
+                "line": 19,
+                "column": 8
+            },
+            "end": {
+                "line": 19,
+                "column": 31
+            }
+        }
+    }
+]

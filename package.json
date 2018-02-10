@@ -20,6 +20,8 @@
   "dependencies": {
     "datafac": "^1.0.0",
     "esprima": "^4.0.0",
+    "estraverse": "^4.2.0",
+    "glob": "^7.1.2",
     "signet": "^3.16.2"
   },
   "engines": {

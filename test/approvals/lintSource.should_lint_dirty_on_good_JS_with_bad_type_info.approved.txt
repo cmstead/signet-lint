@@ -1,6 +1,6 @@
 [
     {
-        "error": "Type name slurm is not a known, or registered type.",
+        "error": "Type name glurp is not a known, or registered type.",
         "errorLevel": "error",
         "loc": {
             "start": {
@@ -56,16 +56,30 @@
         }
     },
     {
-        "error": "Type name slurm is not a known, or registered type.",
+        "error": "Type name florp is not a known, or registered type.",
         "errorLevel": "error",
         "loc": {
             "start": {
-                "line": 18,
-                "column": 36
+                "line": 20,
+                "column": 9
             },
             "end": {
-                "line": 18,
-                "column": 43
+                "line": 20,
+                "column": 16
+            }
+        }
+    },
+    {
+        "error": "Unable to verify non-string type information",
+        "errorLevel": "warn",
+        "loc": {
+            "start": {
+                "line": 21,
+                "column": 10
+            },
+            "end": {
+                "line": 21,
+                "column": 20
             }
         }
     },
@@ -74,11 +88,11 @@
         "errorLevel": "error",
         "loc": {
             "start": {
-                "line": 23,
+                "line": 29,
                 "column": 8
             },
             "end": {
-                "line": 23,
+                "line": 29,
                 "column": 30
             }
         }

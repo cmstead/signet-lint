@@ -5,7 +5,9 @@ const { checkPropertyName } = require('./utils');
 const {
     testSignature,
     testType,
-    verifyOrWarn
+    testDuckType,
+    verifyOrWarn,
+    verifyObjectOrWarn
 } = require('./verifiers');
 
 function verifyEnforce(node, signet) {
@@ -29,23 +31,33 @@ function verifyAliasDeclaration(node, signet) {
     return verifyOrWarn(typeValue, verifier);
 }
 
+function verifyDuckType(node, signet) {
+    const typeValue = node.arguments[1];
+    const verifier = () => testDuckType(typeValue, signet);
+
+    return verifyObjectOrWarn(typeValue, verifier);
+}
+
 const isEnforcement = checkPropertyName('enforce');
 const isSigning = checkPropertyName('sign');
 const isTypeCheck = checkPropertyName('isTypeOf');
 const isVerifyValueType = checkPropertyName('verifyValueType');
 const isSubtypeDeclaration = checkPropertyName('subtype');
 const isAliasDeclaration = checkPropertyName('alias');
+const isDuckType = checkPropertyName('defineDuckType');
 
 const isDefault = () => true;
 const defaultCheck = () => null;
 
 const verificationMethods = [
+    [isAliasDeclaration, verifyAliasDeclaration],
+    [isDuckType, verifyDuckType],
     [isEnforcement, verifyEnforce],
     [isSigning, verifyEnforce],
+    [isSubtypeDeclaration, verifyTypeCheck],
     [isTypeCheck, verifyTypeCheck],
     [isVerifyValueType, verifyTypeCheck],
-    [isAliasDeclaration, verifyAliasDeclaration],
-    [isSubtypeDeclaration, verifyTypeCheck],
+
     [isDefault, defaultCheck]
 ];
 
@@ -72,7 +84,7 @@ function verify(node, signet) {
 
 module.exports = {
     verify: signet.enforce(
-        'astNode, signet => variant<lintError, null>',
+        'astNode, signet => variant<LintErrorOrNull, array<LintErrorOrNull>>',
         verify)
 }
 

@@ -18,40 +18,26 @@ function loadBuilder(signet) {
     }
 }
 
-function push(values, newValue) {
-    values.push(newValue);
-    return values;
-}
-
-function captureOutputIfError(verify, results, node) {
-    const result = verify(node);
-
-    return result !== null
-        ? push(results, result)
-        : results;
-}
-
 function getLintResult(signet) {
     const verify = verifyBuilder(signet);
     const load = loadBuilder(signet);
 
     return function (results, node) {
-        captureOutputIfError(load, results, node);
-        captureOutputIfError(verify, results, node);
-
-        return results;
+        return results
+            .concat(load(node))
+            .concat(verify(node));
     }
 }
 
 function verify(fileSource, signet) {
-    const errors = [];
+    let errors = [];
     const ast = parser.parseSource(fileSource);
     const lintAndCaptureErrors = getLintResult(signet);
-    const lintAction = (signetNode) => lintAndCaptureErrors(errors, signetNode);
+    const lintAction = (signetNode) => errors = lintAndCaptureErrors(errors, signetNode);
 
     nodeHelper.lintSignetNodes(ast, lintAction);
 
-    return errors;
+    return errors.filter((value) => value !== null);
 }
 
 module.exports = {

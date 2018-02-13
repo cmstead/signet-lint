@@ -25,4 +25,6 @@ signet.defineDuckType('lintError', {
     loc: 'astLoc'
 });
 
+signet.alias('LintErrorOrNull', 'variant<lintError, null>');
+
 module.exports = signet;

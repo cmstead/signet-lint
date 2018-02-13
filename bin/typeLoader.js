@@ -4,7 +4,7 @@ const signet = require('../signet-types');
 const { checkPropertyName, buildError } = require('./utils');
 
 const isAliasDeclaration = checkPropertyName('alias');
-// const isDuckTypeDeclaration = checkPropertyName('defineDuckType');
+const isDuckTypeDeclaration = checkPropertyName('defineDuckType');
 // const isExactDuckTypeDeclaration = checkPropertyName('defineExactDuckType');
 const isExtendDeclaration = checkPropertyName('extend');
 // const isRecursiveTypeDeclaration = checkPropertyName('defineRecursiveType');
@@ -40,6 +40,7 @@ const defaultLoader = () => null;
 const loaderMethods = [
     [isAliasDeclaration, loadNameFromFirstArgument],
     [isExtendDeclaration, loadNameFromFirstArgument],
+    [isDuckTypeDeclaration, loadNameFromFirstArgument],
     [isDefault, defaultLoader]
 ];
 

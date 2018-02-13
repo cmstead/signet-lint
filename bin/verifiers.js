@@ -16,13 +16,28 @@ function testSignature(signatureNode, signet) {
 function testType(typeNode, signet) {
     const typeValue = typeNode.value;
 
-    try{
+    try {
         signet.isTypeOf(typeValue)('');
         return null
     } catch (e) {
         const message = `Type name ${typeValue} is not a known, or registered type.`;
         return buildError(message, typeNode.loc);
     }
+}
+
+function testDuckType(typeNode, signet) {
+    const properties = typeNode.properties
+    let results = [];
+
+    for(let i = 0; i < properties.length; i++) {
+        const typeValueNode = properties[i].value;
+        const verifier = () => testType(typeValueNode, signet);
+        const result = verifyOrWarn(typeValueNode, verifier);
+
+        results.push(result);
+    }
+
+    return results;
 }
 
 function verifyOrWarn(typeValueNode, verifier) {
@@ -36,15 +51,32 @@ function verifyOrWarn(typeValueNode, verifier) {
     }
 }
 
+function verifyObjectOrWarn(typeValueNode, verifier) {
+    const typeValueIsObject = typeValueNode.type === 'ObjectExpression';
+
+    if (typeValueIsObject) {
+        return verifier();
+    } else {
+        const message = 'Unable to verify non-object duck type information';
+        return buildError(message, typeValueNode.loc, 'warn');
+    }
+}
+
 module.exports = {
+    testDuckType: signet.enforce(
+        'astNode, signet => array<LintErrorOrNull>',
+        testDuckType),
     testSignature: signet.enforce(
-        'astNode, signet => variant<lintError, null>',
+        'astNode, signet => LintErrorOrNull',
         testSignature),
     testType: signet.enforce(
-        'astNode, signet => variant<lintError, null>',
+        'astNode, signet => LintErrorOrNull',
         testType),
     verifyOrWarn: signet.enforce(
-        'astNode, verifier => variant<lintError, null>',
-        verifyOrWarn)
+        'astNode, verifier => LintErrorOrNull',
+        verifyOrWarn),
+    verifyObjectOrWarn: signet.enforce(
+        'astNode, verifier => array<LintErrorOrNull>',
+        verifyObjectOrWarn)
 }
 

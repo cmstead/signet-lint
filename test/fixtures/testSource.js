@@ -5,7 +5,7 @@ function testFn(a, b) {
 }
 
 signet.extend('fleem', () => true);
-signet.subtype('slurm')('foop', () => true);
+signet.subtype('glurp')('foop', () => true);
 signet.alias('zoinks', 'slurm');
 
 const int = 'int';
@@ -15,7 +15,13 @@ const isFlarb = signet.isTypeOf('flarb');
 const isFleem = signet.isTypeOf('fleem');
 const isFoop = signet.isTypeOf('foop');
 
-const test = signet.verifyValueType('slurm')('testing');
+signet.defineDuckType('dinglebop', {
+    good: 'fleem',
+    bad: 'florp',
+    warn: () => true
+});
+
+const test = signet.verifyValueType('dinglebop')('testing');
 const test2 = signet.verifyValueType('?int')(undefined);
 
 module.exports = {

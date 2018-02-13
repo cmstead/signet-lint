@@ -12,5 +12,19 @@
                 "column": 38
             }
         }
+    },
+    {
+        "error": "Unable to verify non-string type information",
+        "errorLevel": "warn",
+        "loc": {
+            "start": {
+                "line": 21,
+                "column": 10
+            },
+            "end": {
+                "line": 21,
+                "column": 20
+            }
+        }
     }
 ]

@@ -3,29 +3,21 @@
 const signet = require('../signet-types');
 const estraverse = require('estraverse');
 
-function isSignetCall(node) {
-    return node.type === 'CallExpression'
-        && node.callee.type === 'MemberExpression'
-        && node.callee.object.type === 'Identifier'
-        && node.callee.object.name === 'signet';
-}
+const isSignetCall = signet.isTypeOf('signetCallExpression');
+const isSignetCurriedCall = signet.isTypeOf('signetCurriedCallExpression');
 
-function collectSignetNodes(ast) {
-    const signetNodes = [];
-
+function lintSignetNodes(ast, lintAction) {
     estraverse.traverse(ast, {
         enter: function (node) {
-            if (isSignetCall(node)) {
-                signetNodes.push(node);
+            if (isSignetCall(node) || isSignetCurriedCall(node)) {
+                lintAction(node);
             }
         }
     });
-
-    return signetNodes;
 }
 
 module.exports = {
-    collectSignetNodes: signet.enforce(
-        'ast => array<astNode>',
-        collectSignetNodes)
+    lintSignetNodes: signet.enforce(
+        'ast, lintAction => undefined',
+        lintSignetNodes)
 }

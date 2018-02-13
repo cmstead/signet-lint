@@ -12,14 +12,19 @@ module.exports = function(signet) {
         end: 'astPosition'
     });
     
+    signet.alias('shallowAstLoc', 'objectInstance');
+
     signet.defineDuckType('astNode', {
         type: '?string',
-        loc: 'astLoc'
+        loc: 'shallowAstLoc'
     });
-    
+
     signet.defineDuckType('ast', {
         type: 'formattedString<Program>',
         body: 'array<astNode>',
     });
-    
+
+    signet.subtype('astNode')('typedAstNode{1}', function (value, options) {
+        return value.type === options[0];
+    });
 }

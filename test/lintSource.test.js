@@ -18,7 +18,7 @@ describe('lintSource', function () {
     it('should lint clean on JS with good type info', function() {
         const fileSource = sourceReader.readSource(__dirname, './fixtures/testSource.js');
         const signet = signetBuilder();
-        const testTypes = ['foo', 'flarb', 'fleem', 'slurm', 'foop'];
+        const testTypes = ['foo', 'flarb', 'slurm', 'foop'];
         
         loadTypes(testTypes, signet);
 
@@ -30,7 +30,7 @@ describe('lintSource', function () {
     it('should lint dirty on good JS with bad type info', function() {
         const fileSource = sourceReader.readSource(__dirname, './fixtures/testSource.js');
         const signet = signetBuilder();
-        const testTypes = ['foop', 'fleem'];
+        const testTypes = ['foop'];
         
         loadTypes(testTypes, signet);
 

@@ -1,14 +1,7 @@
 'use strict';
 
 const signet = require('../signet-types');
-
-function buildError(message, location, errorLevel = 'error') {
-    return {
-        error: message,
-        errorLevel: errorLevel,
-        loc: location
-    };
-}
+const { buildError } = require('./utils');
 
 function testSignature(signatureNode, signet) {
     const testFn = () => { };

@@ -4,19 +4,24 @@ const signet = require('signet')();
 
 signet.alias('source', 'string');
 signet.alias('errorMessage', 'string');
+signet.alias('errorLevel', 'formattedString<(warn|error)>');
 signet.alias('verifier', 'function');
 signet.alias('methodName', 'string');
-
-require('./type-data/astTypes')(signet);
+signet.alias('typeName', 'string');
+signet.alias('lintAction', 'function<node => *>');
+signet.alias('objectInstance', 'composite<not<null>, object>');
 
 signet.defineDuckType('signet', {
     enforce: 'function',
     isType: 'function'
 });
 
+require('./type-data/astTypes')(signet);
+require('./type-data/nodeTypes')(signet);
+
 signet.defineDuckType('lintError', {
     error: 'errorMessage',
-    errorLevel: 'formattedString<(warn|error)>',
+    errorLevel: 'errorLevel',
     loc: 'astLoc'
 });
 

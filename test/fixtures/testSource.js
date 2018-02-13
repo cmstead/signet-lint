@@ -20,6 +20,6 @@ const test2 = signet.verifyValueType('?int')(undefined);
 
 module.exports = {
     testFn: signet.enforce(
-        'foo, number => number', 
+        'zoinks, fleem => foo', 
         testFn)
 }

@@ -4,11 +4,18 @@ const signet = require('../signet-types');
 const parser = require('./parser');
 const nodeHelper = require('./nodeHelper');
 const verifier = require('./verifier');
+const typeLoader = require('./typeLoader');
 
 function verifyBuilder(signet) {
     return function (node) {
         return verifier.verify(node, signet);
     };
+}
+
+function loadBuilder(signet) {
+    return function (node) {
+        return typeLoader.loadTypeNode(node, signet);
+    }
 }
 
 function push(values, newValue) {
@@ -24,21 +31,27 @@ function captureOutputIfError(verify, results, node) {
         : results;
 }
 
-const getLintResult =
-    (verify) =>
-        (results, node) =>
-            captureOutputIfError(verify, results, node);
-
-function getLintErrors(nodes, signet) {
+function getLintResult(signet) {
     const verify = verifyBuilder(signet);
-    return nodes.reduce(getLintResult(verify), []);
+    const load = loadBuilder(signet);
+
+    return function (results, node) {
+        captureOutputIfError(load, results, node);
+        captureOutputIfError(verify, results, node);
+
+        return results;
+    }
 }
 
 function verify(fileSource, signet) {
+    const errors = [];
     const ast = parser.parseSource(fileSource);
-    const signetNodes = nodeHelper.collectSignetNodes(ast);
+    const lintAndCaptureErrors = getLintResult(signet);
+    const lintAction = (signetNode) => lintAndCaptureErrors(errors, signetNode);
 
-    return getLintErrors(signetNodes, signet);
+    nodeHelper.lintSignetNodes(ast, lintAction);
+
+    return errors;
 }
 
 module.exports = {

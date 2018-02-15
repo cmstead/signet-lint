@@ -15,17 +15,26 @@ const isFlarb = signet.isTypeOf('flarb');
 const isFleem = signet.isTypeOf('fleem');
 const isFoop = signet.isTypeOf('foop');
 
+signet.defineDependentOperatorOn('squanch')('=', () => true);
+signet.defineDependentOperatorOn('flarp')('=', () => true);
+
 signet.defineDuckType('dinglebop', {
     good: 'fleem',
     bad: 'florp',
     warn: () => true
 });
 
+signet.defineExactDuckType('plumbus', {
+    woot: 'foop'
+});
+
+signet.defineRecursiveType('julia', () => null, 'blerf');
+
 const test = signet.verifyValueType('dinglebop')('testing');
 const test2 = signet.verifyValueType('?int')(undefined);
 
 module.exports = {
     testFn: signet.enforce(
-        'zoinks, fleem => foo', 
+        'zoinks, fleem, julia => foo', 
         testFn)
 }

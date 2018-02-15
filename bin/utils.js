@@ -10,7 +10,14 @@ const checkPropertyName =
     (methodName) =>
         (astNode) =>
             isDefined(astNode.callee.property)
-             && astNode.callee.property.name === methodName;
+            && astNode.callee.property.name === methodName;
+
+const isCurriedExpression = signet.isTypeOf('signetCurriedCallExpression');
+
+function checkCurriedPropertyName(propertyName) {
+    const isCorrectNodeType = checkPropertyName(propertyName);
+    return (node) => isCurriedExpression(node) && isCorrectNodeType(node.callee);
+}
 
 function buildError(message, location, errorLevel = 'error') {
     return {
@@ -27,6 +34,9 @@ module.exports = {
     checkPropertyName: signet.enforce(
         'methodName => astNode => boolean',
         checkPropertyName),
+        checkCurriedPropertyName: signet.enforce(
+        'methodName => astNode => boolean',
+        checkCurriedPropertyName),
     first: signet.enforce(
         'array<*> => *',
         first),

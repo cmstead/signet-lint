@@ -18,7 +18,7 @@ describe('lintSource', function () {
     it('should lint clean on JS with good type info', function() {
         const fileSource = sourceReader.readSource(__dirname, './fixtures/testSource.js');
         const signet = signetBuilder();
-        const testTypes = ['foo', 'flarb', 'florp', 'glurp', 'slurm', 'foop'];
+        const testTypes = ['foo', 'flarb', 'flarp', 'squanch', 'florp', 'glurp', 'slurm'];
         
         loadTypes(testTypes, signet);
 
@@ -30,9 +30,11 @@ describe('lintSource', function () {
     it('should lint dirty on good JS with bad type info', function() {
         const fileSource = sourceReader.readSource(__dirname, './fixtures/testSource.js');
         const signet = signetBuilder();
-        const testTypes = ['foop'];
-        
-        loadTypes(testTypes, signet);
+
+        // This is necessary to generate failing case
+        // Creating dependent operator against existing definition
+        signet.extend('squanch', () => true);
+        signet.defineDependentOperatorOn('squanch')('=', () => true);
 
         const errorOutput = lintSource.verify(fileSource, signet);
 

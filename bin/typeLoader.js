@@ -1,17 +1,21 @@
 'use strict';
 
 const signet = require('../signet-types');
-const { checkPropertyName, buildError } = require('./utils');
+const { 
+    checkCurriedPropertyName,
+    checkPropertyName,
+    buildError
+} = require('./utils');
 
 const isAliasDeclaration = checkPropertyName('alias');
 const isDuckTypeDeclaration = checkPropertyName('defineDuckType');
-// const isExactDuckTypeDeclaration = checkPropertyName('defineExactDuckType');
+const isExactDuckTypeDeclaration = checkPropertyName('defineExactDuckType');
 const isExtendDeclaration = checkPropertyName('extend');
-// const isRecursiveTypeDeclaration = checkPropertyName('defineRecursiveType');
-// const isSubtypeDeclaration = checkPropertyName('subtype');
+const isRecursiveTypeDeclaration = checkPropertyName('defineRecursiveType');
 
-// const isDependentOperatorDeclaration = checkPropertyName('defineDependentOperatorOn');
-// const isMacroDeclaration = checkPropertyName('registerTypeLevelMacro');
+const isSubtypeDeclaration = checkCurriedPropertyName('subtype');
+const isDependentOperatorDeclaration = checkCurriedPropertyName('defineDependentOperatorOn');
+
 
 function loadTypeName(typeName, signet) {
     try {
@@ -34,6 +38,18 @@ function loadNameFromFirstArgument(node, signet) {
     return loadTypeOrError(typeName, typeName.loc, signet);
 }
 
+function loadDependentOperator(node, signet) {
+    const operator = node.arguments[0];
+    const typeName = node.callee.arguments[0];
+
+    try{
+        signet.defineDependentOperatorOn(typeName.value)(operator.value, () => true);
+        return null;
+    } catch (e) {
+        return buildError(e.message, operator.loc);
+    }
+}
+
 const isDefault = () => true;
 const defaultLoader = () => null;
 
@@ -41,6 +57,10 @@ const loaderMethods = [
     [isAliasDeclaration, loadNameFromFirstArgument],
     [isExtendDeclaration, loadNameFromFirstArgument],
     [isDuckTypeDeclaration, loadNameFromFirstArgument],
+    [isExactDuckTypeDeclaration, loadNameFromFirstArgument],
+    [isRecursiveTypeDeclaration, loadNameFromFirstArgument],
+    [isSubtypeDeclaration, loadNameFromFirstArgument],
+    [isDependentOperatorDeclaration, loadDependentOperator],
     [isDefault, defaultLoader]
 ];
 

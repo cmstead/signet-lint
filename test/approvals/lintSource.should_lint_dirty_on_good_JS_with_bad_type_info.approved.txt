@@ -56,15 +56,43 @@
         }
     },
     {
+        "error": "Cannot redefine property: =",
+        "errorLevel": "error",
+        "loc": {
+            "start": {
+                "line": 18,
+                "column": 44
+            },
+            "end": {
+                "line": 18,
+                "column": 47
+            }
+        }
+    },
+    {
+        "error": "The given type \"flarp\" does not exist",
+        "errorLevel": "error",
+        "loc": {
+            "start": {
+                "line": 19,
+                "column": 42
+            },
+            "end": {
+                "line": 19,
+                "column": 45
+            }
+        }
+    },
+    {
         "error": "Type name florp is not a known, or registered type.",
         "errorLevel": "error",
         "loc": {
             "start": {
-                "line": 20,
+                "line": 23,
                 "column": 9
             },
             "end": {
-                "line": 20,
+                "line": 23,
                 "column": 16
             }
         }
@@ -74,11 +102,11 @@
         "errorLevel": "warn",
         "loc": {
             "start": {
-                "line": 21,
+                "line": 24,
                 "column": 10
             },
             "end": {
-                "line": 21,
+                "line": 24,
                 "column": 20
             }
         }
@@ -88,12 +116,12 @@
         "errorLevel": "error",
         "loc": {
             "start": {
-                "line": 29,
+                "line": 38,
                 "column": 8
             },
             "end": {
-                "line": 29,
-                "column": 30
+                "line": 38,
+                "column": 37
             }
         }
     }

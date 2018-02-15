@@ -18,11 +18,11 @@
         "errorLevel": "warn",
         "loc": {
             "start": {
-                "line": 21,
+                "line": 24,
                 "column": 10
             },
             "end": {
-                "line": 21,
+                "line": 24,
                 "column": 20
             }
         }

@@ -1,68 +1,45 @@
 'use strict';
 
 const signet = require('../signet-types');
-const {
-    checkCurriedPropertyName,
-    checkPropertyName
-} = require('./utils');
 
-const isEnforcement = checkPropertyName('enforce');
-const isSigning = checkPropertyName('sign');
-const isTypeCheck = checkPropertyName('isTypeOf');
-const isVerifyValueType = checkPropertyName('verifyValueType');
+const nodeStandardSignetTypes = {
+    'enforce': true,
+    'sign': true,
+    'isTypeOf': true,
+    'verifyValueType': true,
+    'alias': true,
+    'defineDuckType': true,
+    'defineExactDuckType': true,
+    'extend': true,
+    'defineRecursiveType': true
+};
 
-const isAliasDeclaration = checkPropertyName('alias');
-const isDuckTypeDeclaration = checkPropertyName('defineDuckType');
-const isExactDuckTypeDeclaration = checkPropertyName('defineExactDuckType');
-const isExtendDeclaration = checkPropertyName('extend');
-const isRecursiveTypeDeclaration = checkPropertyName('defineRecursiveType');
+const nodeCurriedSignetTypes = {
+    'subtype': true,
+    'defineDependentOperatorOn': true
+}
 
-const isSubtypeDeclaration = checkCurriedPropertyName('subtype');
-const isDependentOperatorDeclaration = checkCurriedPropertyName('defineDependentOperatorOn');
+const isCurriedCallExpression = signet.isTypeOf('curriedCallExpressionNode');
+const isDefined = signet.isTypeOf('not<undefined>');
 
-const nodeTypeMapping = [
-    [isEnforcement, 'enforce'],
-    [isSigning, 'sign'],
-    [isTypeCheck, 'isTypeOf'],
-    [isVerifyValueType, 'verifyValueType'],
-    [isAliasDeclaration, 'alias'],
-    [isDuckTypeDeclaration, 'defineDuckType'],
-    [isExactDuckTypeDeclaration, 'defineExactDuckType'],
-    [isExtendDeclaration, 'extend'],
-    [isRecursiveTypeDeclaration, 'defineRecursiveType'],
-    [isSubtypeDeclaration, 'subtype'],
-    [isDependentOperatorDeclaration, 'defineDependentOperatorOn']
-];
+function getPropertyName(node) {
+    return isDefined(node.callee.property)
+        ? node.callee.property.name
+        : '';
+}
 
-// const nodeStandardSignetTypes = {
-//     'enforce': true,
-//     'sign': true,
-//     'isTypeOf': true,
-//     'verifyValueType': true,
-//     'alias': true,
-//     'defineDuckType': true,
-//     'defineExactDuckType': true,
-//     'extend': true,
-//     'defineRecursiveType': true
-// };
-
-// const nodeCurriedSignetTypes = {
-//     'subtype': true,
-//     'defineDependentOperatorOn': true
-// }
+function passThroughNameOrDefault(obj, name) {
+    return typeof obj[name] === 'undefined' ? 'default' : name;
+}
 
 function getNodeType(node) {
-    let nodeType = 'default';
-
-    for (let i = 0; i < nodeTypeMapping.length; i++) {
-        const nodeTypeCheck = nodeTypeMapping[i][0];
-        if (nodeTypeCheck(node)) {
-            nodeType = nodeTypeMapping[i][1];
-            break;
-        }
+    if (isCurriedCallExpression(node)) {
+        const nodeType = getPropertyName(node.callee);
+        return passThroughNameOrDefault(nodeCurriedSignetTypes, nodeType);
+    } else {
+        const nodeType = getPropertyName(node);
+        return passThroughNameOrDefault(nodeStandardSignetTypes, nodeType);
     }
-
-    return nodeType;
 }
 
 module.exports = {

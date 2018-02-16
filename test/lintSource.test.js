@@ -18,9 +18,9 @@ describe('lintSource', function () {
     it('should lint clean on JS with good type info', function() {
         const fileSource = sourceReader.readSource(__dirname, './fixtures/testSource.js');
         const signet = signetBuilder();
-        const testTypes = ['foo', 'flarb', 'flarp', 'squanch', 'florp', 'glurp', 'slurm'];
+        const globallyDefinedTypes = ['foo', 'flarb', 'flarp', 'squanch', 'florp', 'glurp', 'slurm'];
         
-        loadTypes(testTypes, signet);
+        loadTypes(globallyDefinedTypes, signet);
 
         const errorOutput = lintSource.verify(fileSource, signet);
 

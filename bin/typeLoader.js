@@ -1,21 +1,8 @@
 'use strict';
 
 const signet = require('../signet-types');
-const { 
-    checkCurriedPropertyName,
-    checkPropertyName,
-    buildError
-} = require('./utils');
-
-const isAliasDeclaration = checkPropertyName('alias');
-const isDuckTypeDeclaration = checkPropertyName('defineDuckType');
-const isExactDuckTypeDeclaration = checkPropertyName('defineExactDuckType');
-const isExtendDeclaration = checkPropertyName('extend');
-const isRecursiveTypeDeclaration = checkPropertyName('defineRecursiveType');
-
-const isSubtypeDeclaration = checkCurriedPropertyName('subtype');
-const isDependentOperatorDeclaration = checkCurriedPropertyName('defineDependentOperatorOn');
-
+// const nodeIdentifier = require('./signetNodeIdentifiers');
+const { buildError } = require('./utils');
 
 function loadTypeName(typeName, signet) {
     try {
@@ -26,23 +13,23 @@ function loadTypeName(typeName, signet) {
     }
 }
 
-function loadTypeOrError(typeName, astLoc, signet) {
+function loadTypeOrError(typeName, signet) {
     const errorMessage = loadTypeName(typeName.value, signet);
     return errorMessage !== null
-        ? buildError(errorMessage, astLoc)
+        ? buildError(errorMessage, typeName.loc)
         : null;
 }
 
 function loadNameFromFirstArgument(node, signet) {
     const typeName = node.arguments[0];
-    return loadTypeOrError(typeName, typeName.loc, signet);
+    return loadTypeOrError(typeName, signet);
 }
 
 function loadDependentOperator(node, signet) {
     const operator = node.arguments[0];
     const typeName = node.callee.arguments[0];
 
-    try{
+    try {
         signet.defineDependentOperatorOn(typeName.value)(operator.value, () => true);
         return null;
     } catch (e) {
@@ -50,37 +37,28 @@ function loadDependentOperator(node, signet) {
     }
 }
 
-const isDefault = () => true;
 const defaultLoader = () => null;
 
-const loaderMethods = [
-    [isAliasDeclaration, loadNameFromFirstArgument],
-    [isExtendDeclaration, loadNameFromFirstArgument],
-    [isDuckTypeDeclaration, loadNameFromFirstArgument],
-    [isExactDuckTypeDeclaration, loadNameFromFirstArgument],
-    [isRecursiveTypeDeclaration, loadNameFromFirstArgument],
-    [isSubtypeDeclaration, loadNameFromFirstArgument],
-    [isDependentOperatorDeclaration, loadDependentOperator],
-    [isDefault, defaultLoader]
-];
+const loaderMethodMap = {
+    alias: loadNameFromFirstArgument,
+    extend: loadNameFromFirstArgument,
+    defineDuckType: loadNameFromFirstArgument,
+    defineExactDuckType: loadNameFromFirstArgument,
+    defineRecursiveType: loadNameFromFirstArgument,
+    subtype: loadNameFromFirstArgument,
+    defineDependentOperatorOn: loadDependentOperator,
+    default: defaultLoader
+};
 
-function getLoaderMethod(node) {
-    let loader;
+function getLoaderMethod(node, nodeType) {
+    // const nodeType = nodeIdentifier.getNodeType(node);
+    const loader = loaderMethodMap[nodeType]
 
-    for (let i = 0; i < loaderMethods.length; i++) {
-        let verificationCheck = loaderMethods[i][0];
-
-        if (verificationCheck(node)) {
-            loader = loaderMethods[i][1];
-            break;
-        }
-    }
-
-    return loader;
+    return typeof loader === 'undefined' ? defaultLoader : loader;
 }
 
-function loadTypeNode(node, signet) {
-    return getLoaderMethod(node)(node, signet);
+function loadTypeNode(node, signet, nodeType) {
+    return getLoaderMethod(node, nodeType)(node, signet);
 }
 
 module.exports = {

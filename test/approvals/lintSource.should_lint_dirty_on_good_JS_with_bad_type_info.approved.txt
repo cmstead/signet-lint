@@ -19,11 +19,11 @@
         "loc": {
             "start": {
                 "line": 9,
-                "column": 23
+                "column": 26
             },
             "end": {
                 "line": 9,
-                "column": 30
+                "column": 33
             }
         }
     },

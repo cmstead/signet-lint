@@ -6,7 +6,7 @@ function testFn(a, b) {
 
 signet.extend('fleem', () => true);
 signet.subtype('glurp')('foop', () => true);
-signet.alias('zoinks', 'slurm');
+signet.alias('zoinks{1}', 'slurm');
 
 const int = 'int';
 

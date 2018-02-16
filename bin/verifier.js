@@ -1,7 +1,8 @@
 'use strict';
 
 const signet = require('../signet-types');
-const { checkPropertyName } = require('./utils');
+// const nodeIdentifier = require('./signetNodeIdentifiers');
+
 const {
     testSignature,
     testType,
@@ -38,48 +39,30 @@ function verifyDuckType(node, signet) {
     return verifyObjectOrWarn(typeValue, verifier);
 }
 
-const isEnforcement = checkPropertyName('enforce');
-const isSigning = checkPropertyName('sign');
-const isTypeCheck = checkPropertyName('isTypeOf');
-const isVerifyValueType = checkPropertyName('verifyValueType');
-const isSubtypeDeclaration = checkPropertyName('subtype');
-const isAliasDeclaration = checkPropertyName('alias');
-const isDuckType = checkPropertyName('defineDuckType');
+const verifySubtypeDeclaration = (node, signet) =>
+    verifyTypeCheck(node.callee, signet);
 
-const isDefault = () => true;
 const defaultCheck = () => null;
 
-const verificationMethods = [
-    [isAliasDeclaration, verifyAliasDeclaration],
-    [isDuckType, verifyDuckType],
-    [isEnforcement, verifyEnforce],
-    [isSigning, verifyEnforce],
-    [isSubtypeDeclaration, verifyTypeCheck],
-    [isTypeCheck, verifyTypeCheck],
-    [isVerifyValueType, verifyTypeCheck],
+const verifierMethodMap = {
+    alias: verifyAliasDeclaration,
+    defineDuckType: verifyDuckType,
+    enforce: verifyEnforce,
+    sign: verifyEnforce,
+    subtype: verifySubtypeDeclaration,
+    isTypeOf: verifyTypeCheck,
+    verifyValueType: verifyTypeCheck
+};
 
-    [isDefault, defaultCheck]
-];
+function getVerficationMethod(node, nodeType) {
+    // const nodeType = nodeIdentifier.getNodeType(node);
+    const loader = verifierMethodMap[nodeType];
 
-
-
-function getVerficationMethod(node) {
-    let verifier;
-
-    for(let i = 0; i < verificationMethods.length; i++) {
-        let verificationCheck = verificationMethods[i][0];
-
-        if(verificationCheck(node)) {
-            verifier = verificationMethods[i][1];
-            break;
-        }
-    }
-
-    return verifier;
+    return typeof loader === 'undefined' ? defaultCheck : loader;
 }
 
-function verify(node, signet) {
-    return getVerficationMethod(node)(node, signet);
+function verify(node, signet, nodeType) {
+    return getVerficationMethod(node, nodeType)(node, signet);
 }
 
 module.exports = {

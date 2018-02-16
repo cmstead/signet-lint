@@ -1,6 +1,7 @@
 'use strict';
 
 const signet = require('../signet-types');
+const nodeIdentifier = require('./signetNodeIdentifiers');
 const estraverse = require('estraverse');
 
 const isSignetCall = signet.isTypeOf('signetCallExpression');
@@ -10,7 +11,10 @@ function lintSignetNodes(ast, lintAction) {
     estraverse.traverse(ast, {
         enter: function (node) {
             if (isSignetCall(node) || isSignetCurriedCall(node)) {
-                lintAction(node);
+                const nodeType = nodeIdentifier.getNodeType(node);
+                if(nodeType !== 'default') {
+                    lintAction(node, nodeType);
+                }
             }
         }
     });

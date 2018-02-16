@@ -32,7 +32,24 @@ const nodeTypeMapping = [
     [isRecursiveTypeDeclaration, 'defineRecursiveType'],
     [isSubtypeDeclaration, 'subtype'],
     [isDependentOperatorDeclaration, 'defineDependentOperatorOn']
-]
+];
+
+// const nodeStandardSignetTypes = {
+//     'enforce': true,
+//     'sign': true,
+//     'isTypeOf': true,
+//     'verifyValueType': true,
+//     'alias': true,
+//     'defineDuckType': true,
+//     'defineExactDuckType': true,
+//     'extend': true,
+//     'defineRecursiveType': true
+// };
+
+// const nodeCurriedSignetTypes = {
+//     'subtype': true,
+//     'defineDependentOperatorOn': true
+// }
 
 function getNodeType(node) {
     let nodeType = 'default';

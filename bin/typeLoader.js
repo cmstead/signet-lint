@@ -1,7 +1,6 @@
 'use strict';
 
 const signet = require('../signet-types');
-// const nodeIdentifier = require('./signetNodeIdentifiers');
 const { buildError } = require('./utils');
 
 function loadTypeName(typeName, signet) {
@@ -51,7 +50,6 @@ const loaderMethodMap = {
 };
 
 function getLoaderMethod(node, nodeType) {
-    // const nodeType = nodeIdentifier.getNodeType(node);
     const loader = loaderMethodMap[nodeType]
 
     return typeof loader === 'undefined' ? defaultLoader : loader;

@@ -7,16 +7,25 @@ const estraverse = require('estraverse');
 const isSignetCall = signet.isTypeOf('signetCallExpression');
 const isSignetCurriedCall = signet.isTypeOf('signetCurriedCallExpression');
 
+function lintOnValidNode(node, lintAction) {
+    const nodeType = nodeIdentifier.getNodeType(node);
+
+    if (nodeType !== 'default') {
+        lintAction(node, nodeType);
+    }
+}
+
+function lintIfSignetNode(lintAction) {
+    return function (node) {
+        if (isSignetCall(node) || isSignetCurriedCall(node)) {
+            lintOnValidNode(node, lintAction)
+        }
+    };
+}
+
 function lintSignetNodes(ast, lintAction) {
     estraverse.traverse(ast, {
-        enter: function (node) {
-            if (isSignetCall(node) || isSignetCurriedCall(node)) {
-                const nodeType = nodeIdentifier.getNodeType(node);
-                if(nodeType !== 'default') {
-                    lintAction(node, nodeType);
-                }
-            }
-        }
+        enter: lintIfSignetNode(lintAction)
     });
 }
 

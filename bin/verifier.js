@@ -1,7 +1,6 @@
 'use strict';
 
 const signet = require('../signet-types');
-// const nodeIdentifier = require('./signetNodeIdentifiers');
 
 const {
     testSignature,
@@ -55,7 +54,6 @@ const verifierMethodMap = {
 };
 
 function getVerficationMethod(node, nodeType) {
-    // const nodeType = nodeIdentifier.getNodeType(node);
     const loader = verifierMethodMap[nodeType];
 
     return typeof loader === 'undefined' ? defaultCheck : loader;

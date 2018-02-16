@@ -34,7 +34,7 @@ module.exports = {
     checkPropertyName: signet.enforce(
         'methodName => astNode => boolean',
         checkPropertyName),
-        checkCurriedPropertyName: signet.enforce(
+    checkCurriedPropertyName: signet.enforce(
         'methodName => astNode => boolean',
         checkCurriedPropertyName),
     first: signet.enforce(

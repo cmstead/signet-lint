@@ -1,0 +1,5 @@
+{
+    "projectName": "signet-lint",
+    "files": "./test/*.test.js",
+    "dest": "docs/"
+}

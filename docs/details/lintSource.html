@@ -1,0 +1,84 @@
+<html>
+
+<head>
+    <title>signet-lint -- Mochadoc Test Documentation</title>
+
+    <link rel="stylesheet" href="../assets/doc-style.css" media="screen">
+    <link rel="stylesheet" href="../assets/github-gist.css" media="screen">
+</head>
+
+<body>
+    <header>
+        <a href="../index.html"><span id="library-name">signet-lint</span>
+        <span id="subtitle">Mochadoc-Generated Test Documents</span></a>
+    </header>
+
+    <div class="content">
+        <h1>lintSource</h1>
+<div>
+    <a href="#" class="collapse-all collapse-link">Collapse All</a>
+</div>
+<ul>
+    <ul>
+    <li>
+        <strong>should lint clean on JS with good type info</strong>
+    </li>
+    <li>File location: <span class="filename">./test/lintSource.test.js</span></li>
+    <li class="code-sample-wrapper">
+        <div class="code-expand">
+            <a href="#" class="collapse-link"></a>
+        </div>
+        <pre class="code-sample">
+            <code>
+        function() {
+        const fileSource &#x3D; sourceReader.readSource(__dirname, &#x27;./fixtures/testSource.js&#x27;);
+        const signet &#x3D; signetBuilder();
+        const globallyDefinedTypes &#x3D; [&#x27;foo&#x27;, &#x27;flarb&#x27;, &#x27;flarp&#x27;, &#x27;squanch&#x27;, &#x27;florp&#x27;, &#x27;glurp&#x27;, &#x27;slurm&#x27;];
+        
+        loadTypes(globallyDefinedTypes, signet);
+
+        const errorOutput &#x3D; lintSource.verify(fileSource, signet);
+
+        this.verify(prettyJson(errorOutput));
+    }
+            </code>
+        </pre>
+    </li>
+</ul>
+<ul>
+    <li>
+        <strong>should lint dirty on good JS with bad type info</strong>
+    </li>
+    <li>File location: <span class="filename">./test/lintSource.test.js</span></li>
+    <li class="code-sample-wrapper">
+        <div class="code-expand">
+            <a href="#" class="collapse-link"></a>
+        </div>
+        <pre class="code-sample">
+            <code>
+        function() {
+        const fileSource &#x3D; sourceReader.readSource(__dirname, &#x27;./fixtures/testSource.js&#x27;);
+        const signet &#x3D; signetBuilder();
+
+        // This is necessary to generate failing case
+        // Creating dependent operator against existing definition
+        signet.extend(&#x27;squanch&#x27;, () &#x3D;&gt; true);
+        signet.defineDependentOperatorOn(&#x27;squanch&#x27;)(&#x27;&#x3D;&#x27;, () &#x3D;&gt; true);
+
+        const errorOutput &#x3D; lintSource.verify(fileSource, signet);
+
+        this.verify(prettyJson(errorOutput));
+    }
+            </code>
+        </pre>
+    </li>
+</ul>
+</ul>
+    </div>
+
+    <script src="../assets/code-collapse.js"></script>
+    <script src="../assets/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+<html>
+
+<head>
+    <title>signet-lint -- Mochadoc Test Documentation</title>
+
+    <link rel="stylesheet" href="../assets/doc-style.css" media="screen">
+    <link rel="stylesheet" href="../assets/github-gist.css" media="screen">
+</head>
+
+<body>
+    <header>
+        <a href="../index.html"><span id="library-name">signet-lint</span>
+        <span id="subtitle">Mochadoc-Generated Test Documents</span></a>
+    </header>
+
+    <div class="content">
+        <h1>fileLoader</h1>
+<div>
+    <a href="#" class="collapse-all collapse-link">Collapse All</a>
+</div>
+<ul>
+    <ul>
+    <li>
+        <strong>should load source for all files matching glob pattern</strong>
+    </li>
+    <li>File location: <span class="filename">./test/fileLoader.test.js</span></li>
+    <li class="code-sample-wrapper">
+        <div class="code-expand">
+            <a href="#" class="collapse-link"></a>
+        </div>
+        <pre class="code-sample">
+            <code>
+        function (done) {
+        fileLoader
+            .loadFileSource(
+                [&#x27;./test/fixtures/*.js&#x27;],
+                function (error, fileSource) {
+                    const result &#x3D; prettyJson(fileSource);
+                    this.verify(result);
+                    done();
+                }.bind(this));
+    }
+            </code>
+        </pre>
+    </li>
+</ul>
+<ul>
+    <li>
+        <strong>should load source for all files matching using multiple patterns</strong>
+    </li>
+    <li>File location: <span class="filename">./test/fileLoader.test.js</span></li>
+    <li class="code-sample-wrapper">
+        <div class="code-expand">
+            <a href="#" class="collapse-link"></a>
+        </div>
+        <pre class="code-sample">
+            <code>
+        function (done) {
+        fileLoader
+            .loadFileSource(
+                [
+                    &#x27;./test/fixtures/types/*.js&#x27;,
+                    &#x27;./test/fixtures/*.js&#x27;
+                ],
+                function (error, fileSource) {
+                    const result &#x3D; prettyJson(fileSource);
+                    this.verify(result);
+                    done();
+                }.bind(this));
+    }
+            </code>
+        </pre>
+    </li>
+</ul>
+</ul>
+    </div>
+
+    <script src="../assets/code-collapse.js"></script>
+    <script src="../assets/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</body>
+
+</html>

@@ -7,7 +7,7 @@ signet.defineDuckType('error', {
 });
 
 signet.alias('maybeError', 'variant<null, error>')
-signet.alias('callback', 'function<error, [*] => undefined>');
+signet.alias('callback', 'function<maybeError, [*] => undefined>');
 signet.alias('objectInstance', 'composite<not<null>, object>');
 
 signet.alias('globPattern', 'string');

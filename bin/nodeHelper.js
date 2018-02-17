@@ -7,30 +7,30 @@ const estraverse = require('estraverse');
 const isSignetCall = signet.isTypeOf('signetCallExpression');
 const isSignetCurriedCall = signet.isTypeOf('signetCurriedCallExpression');
 
-function lintOnValidNode(node, lintAction) {
+function lintOnValidNode(node, signetNodeAction) {
     const nodeType = nodeIdentifier.getNodeType(node);
 
     if (nodeType !== 'default') {
-        lintAction(node, nodeType);
+        signetNodeAction(node, nodeType);
     }
 }
 
-function lintIfSignetNode(lintAction) {
+function lintIfSignetNode(signetNodeAction) {
     return function (node) {
         if (isSignetCall(node) || isSignetCurriedCall(node)) {
-            lintOnValidNode(node, lintAction)
+            lintOnValidNode(node, signetNodeAction)
         }
     };
 }
 
-function lintSignetNodes(ast, lintAction) {
+function callOnSignetNodes(ast, signetNodeAction) {
     estraverse.traverse(ast, {
-        enter: lintIfSignetNode(lintAction)
+        enter: lintIfSignetNode(signetNodeAction)
     });
 }
 
 module.exports = {
-    lintSignetNodes: signet.enforce(
+    callOnSignetNodes: signet.enforce(
         'ast, lintAction => undefined',
-        lintSignetNodes)
+        callOnSignetNodes)
 }

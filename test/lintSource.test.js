@@ -6,8 +6,9 @@ const sourceReader = require('./test-utils/sourceReader');
 
 const lintSource = require('../bin/lintSource.js');
 
+require('./test-utils/approvals-config');
+
 describe('lintSource', function () {
-    require('./test-utils/approvals-config');
 
     const typeFnBuilder = () => () => true;
 

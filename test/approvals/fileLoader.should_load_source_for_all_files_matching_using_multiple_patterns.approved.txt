@@ -1,0 +1,10 @@
+[
+    [
+        "./test/fixtures/types/test-type-helper.js",
+        "'use strict';\n\nconst signet = require('signet');\n\n// 'foo', 'flarb', 'flarp', 'squanch', 'florp', 'glurp', 'slurm'\nsignet.extend('foo', () => true);\nsignet.subtype('foo')('flarb', () => true);\nsignet.defineDuckType('flarp', {});\nsignet.defineExactDuckType('squanch', {});\nsignet.alias('florp', 'squanch');\nsignet.defineRecursiveType('glurp', () => null, 'florp');\nsignet.extend('slurm', () => true);\n\nsignet.defineDependentOperatorOn('slurm', '%#', () => true);\n\nmodule.exports = signet;"
+    ],
+    [
+        "./test/fixtures/testSource.js",
+        "'use strict';\n\nfunction testFn(a, b) {\n    return a + b;\n}\n\nsignet.extend('fleem', () => true);\nsignet.subtype('glurp')('foop', () => true);\nsignet.alias('zoinks{1}', 'slurm');\n\nconst int = 'int';\n\nconst isInt = signet.isTypeOf(`${int}`);\nconst isFlarb = signet.isTypeOf('flarb');\nconst isFleem = signet.isTypeOf('fleem');\nconst isFoop = signet.isTypeOf('foop');\n\nsignet.defineDependentOperatorOn('squanch')('=', () => true);\nsignet.defineDependentOperatorOn('flarp')('=', () => true);\n\nsignet.defineDuckType('dinglebop', {\n    good: 'fleem',\n    bad: 'florp',\n    warn: () => true\n});\n\nsignet.defineExactDuckType('plumbus', {\n    woot: 'foop'\n});\n\nsignet.defineRecursiveType('julia', () => null, 'blerf');\n\nconst test = signet.verifyValueType('dinglebop')('testing');\nconst test2 = signet.verifyValueType('?int')(undefined);\n\nmodule.exports = {\n    testFn: signet.enforce(\n        'zoinks, fleem, julia => foo', \n        testFn)\n}"
+    ]
+]

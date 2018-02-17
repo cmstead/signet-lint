@@ -1,5 +1,6 @@
 'use strict';
 
+const signet = require('../signet-types');
 const glob = require('glob');
 const { first, rest } = require('./utils');
 
@@ -26,5 +27,7 @@ function globFiles(filePatterns, callback) {
 }
 
 module.exports = {
-    globFiles: globFiles
+    globFiles: signet.enforce(
+        'array<globPattern>, callback => undefined', 
+        globFiles)
 }

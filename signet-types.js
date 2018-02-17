@@ -2,14 +2,19 @@
 
 const signet = require('signet')();
 
-signet.alias('source', 'string');
-signet.alias('errorMessage', 'string');
-signet.alias('errorLevel', 'formattedString<(warn|error)>');
-signet.alias('verifier', 'function');
-signet.alias('methodName', 'string');
-signet.alias('typeName', 'string');
-signet.alias('lintAction', 'function<node => *>');
+signet.defineDuckType('error', {
+    message: 'string'
+});
+
+signet.alias('maybeError', 'variant<null, error>')
+signet.alias('callback', 'function<error, [*] => undefined>');
 signet.alias('objectInstance', 'composite<not<null>, object>');
+
+signet.alias('globPattern', 'string');
+signet.alias('methodName', 'string');
+signet.alias('source', 'string');
+signet.alias('typeName', 'string');
+signet.alias('verifier', 'function');
 
 signet.defineDuckType('signet', {
     enforce: 'function',
@@ -18,13 +23,6 @@ signet.defineDuckType('signet', {
 
 require('./type-data/astTypes')(signet);
 require('./type-data/nodeTypes')(signet);
-
-signet.defineDuckType('lintError', {
-    error: 'errorMessage',
-    errorLevel: 'errorLevel',
-    loc: 'astLoc'
-});
-
-signet.alias('LintErrorOrNull', 'variant<lintError, null>');
+require('./type-data/lintTypes')(signet);
 
 module.exports = signet;

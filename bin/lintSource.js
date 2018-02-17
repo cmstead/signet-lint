@@ -36,7 +36,7 @@ function verify(fileSource, signet) {
     const lintAction = (signetNode, nodeType) => 
         errors = lintAndCaptureErrors(errors, signetNode, nodeType);
 
-    nodeHelper.lintSignetNodes(ast, lintAction);
+    nodeHelper.callOnSignetNodes(ast, lintAction);
 
     return errors.filter((value) => value !== null);
 }

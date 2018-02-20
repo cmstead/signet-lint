@@ -1,10 +1,12 @@
 'use strict';
 
-const signet = require('../signet-types');
+const signetBuilder = require('signet');
+const internalSignet = require('../signet-types');
 const parser = require('./parser');
 const nodeHelper = require('./nodeHelper');
 const verifier = require('./verifier');
 const typeLoader = require('./typeLoader');
+const { buildError } = require('./utils');
 
 function verifyBuilder(signet) {
     return function (node, nodeType) {
@@ -12,19 +14,19 @@ function verifyBuilder(signet) {
     };
 }
 
-function loadBuilder(signet) {
-    return function (node, nodeType) {
-        return typeLoader.loadTypeNode(node, signet, nodeType);
-    }
+function errorOnLoadMethod(node, nodeType) {
+    const message = `Method ${nodeType} used: Cannot create new type in source files.`
+    return typeLoader.isTypeLoader(nodeType)
+        ? buildError(message, node.loc)
+        : null;
 }
 
 function getLintResult(signet) {
     const verify = verifyBuilder(signet);
-    const load = loadBuilder(signet);
 
     return function (results, node, nodeType) {
         return results
-            .concat(load(node, nodeType))
+            .concat(errorOnLoadMethod(node, nodeType))
             .concat(verify(node, nodeType));
     }
 }
@@ -33,7 +35,7 @@ function verify(fileSource, signet) {
     let errors = [];
     const ast = parser.parseSource(fileSource);
     const lintAndCaptureErrors = getLintResult(signet);
-    const lintAction = (signetNode, nodeType) => 
+    const lintAction = (signetNode, nodeType) =>
         errors = lintAndCaptureErrors(errors, signetNode, nodeType);
 
     nodeHelper.callOnSignetNodes(ast, lintAction);
@@ -41,8 +43,18 @@ function verify(fileSource, signet) {
     return errors.filter((value) => value !== null);
 }
 
+function loadTypesAndLint(typeFileData, fileSource) {
+    const localSignet = signetBuilder();
+    typeLoader.loadTypeNodes(typeFileData, localSignet);
+    return verify(fileSource, localSignet);
+}
+
 module.exports = {
-    verify: signet.enforce(
+    loadTypesAndLint: internalSignet.enforce(
+        'typeFileData, source => array<lintError>',
+        loadTypesAndLint),
+
+    verify: internalSignet.enforce(
         'source => array<lintError>',
         verify)
 };

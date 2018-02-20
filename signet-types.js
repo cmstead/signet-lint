@@ -14,6 +14,7 @@ signet.alias('globPattern', 'string');
 signet.alias('methodName', 'string');
 signet.alias('source', 'string');
 signet.alias('typeName', 'string');
+signet.alias('typeFileData', 'array<tuple<string, array>>');
 signet.alias('verifier', 'function');
 
 signet.defineDuckType('signet', {

@@ -2,7 +2,6 @@
 
 const signet = require('signet');
 
-// 'foo', 'flarb', 'flarp', 'squanch', 'florp', 'glurp', 'slurm'
 signet.extend('foo', () => true);
 signet.subtype('foo')('flarb', () => true);
 signet.defineDuckType('flarp', {});

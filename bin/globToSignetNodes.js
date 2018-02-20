@@ -9,7 +9,10 @@ function extractSignetNodes([ fileName, fileSource ]) {
     const ast = parser.parseSource(fileSource);
     const signetNodes = [];
 
-    nodeHelper.callOnSignetNodes(ast, node => signetNodes.push(node));
+    nodeHelper.callOnSignetNodes(ast, (node, type) => signetNodes.push({
+        type: type,
+        node: node
+    }));
 
     return [
         fileName,

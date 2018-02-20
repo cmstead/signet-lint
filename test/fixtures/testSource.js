@@ -12,7 +12,7 @@ const int = 'int';
 
 const isInt = signet.isTypeOf(`${int}`);
 const isFlarb = signet.isTypeOf('flarb');
-const isFleem = signet.isTypeOf('fleem');
+const isFleem = signet.isTypeOf('glurp');
 const isFoop = signet.isTypeOf('foop');
 
 signet.defineDependentOperatorOn('squanch')('=', () => true);
@@ -35,6 +35,6 @@ const test2 = signet.verifyValueType('?int')(undefined);
 
 module.exports = {
     testFn: signet.enforce(
-        'zoinks, fleem, julia => foo', 
+        'A %# B :: A: squanch, B: slurm => foo', 
         testFn)
 }

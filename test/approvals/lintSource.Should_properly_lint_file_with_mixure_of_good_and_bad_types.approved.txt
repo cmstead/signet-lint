@@ -1,0 +1,184 @@
+[
+    {
+        "error": "Method extend used: Cannot create new type in source files.",
+        "errorLevel": "error",
+        "loc": {
+            "start": {
+                "line": 7,
+                "column": 0
+            },
+            "end": {
+                "line": 7,
+                "column": 34
+            }
+        }
+    },
+    {
+        "error": "Method subtype used: Cannot create new type in source files.",
+        "errorLevel": "error",
+        "loc": {
+            "start": {
+                "line": 8,
+                "column": 0
+            },
+            "end": {
+                "line": 8,
+                "column": 43
+            }
+        }
+    },
+    {
+        "error": "Method alias used: Cannot create new type in source files.",
+        "errorLevel": "error",
+        "loc": {
+            "start": {
+                "line": 9,
+                "column": 0
+            },
+            "end": {
+                "line": 9,
+                "column": 34
+            }
+        }
+    },
+    {
+        "error": "Unable to verify non-string type information",
+        "errorLevel": "warn",
+        "loc": {
+            "start": {
+                "line": 13,
+                "column": 30
+            },
+            "end": {
+                "line": 13,
+                "column": 38
+            }
+        }
+    },
+    {
+        "error": "Type name foop is not a known, or registered type.",
+        "errorLevel": "error",
+        "loc": {
+            "start": {
+                "line": 16,
+                "column": 31
+            },
+            "end": {
+                "line": 16,
+                "column": 37
+            }
+        }
+    },
+    {
+        "error": "Method defineDependentOperatorOn used: Cannot create new type in source files.",
+        "errorLevel": "error",
+        "loc": {
+            "start": {
+                "line": 18,
+                "column": 0
+            },
+            "end": {
+                "line": 18,
+                "column": 60
+            }
+        }
+    },
+    {
+        "error": "Method defineDependentOperatorOn used: Cannot create new type in source files.",
+        "errorLevel": "error",
+        "loc": {
+            "start": {
+                "line": 19,
+                "column": 0
+            },
+            "end": {
+                "line": 19,
+                "column": 58
+            }
+        }
+    },
+    {
+        "error": "Method defineDuckType used: Cannot create new type in source files.",
+        "errorLevel": "error",
+        "loc": {
+            "start": {
+                "line": 21,
+                "column": 0
+            },
+            "end": {
+                "line": 25,
+                "column": 2
+            }
+        }
+    },
+    {
+        "error": "Type name fleem is not a known, or registered type.",
+        "errorLevel": "error",
+        "loc": {
+            "start": {
+                "line": 22,
+                "column": 10
+            },
+            "end": {
+                "line": 22,
+                "column": 17
+            }
+        }
+    },
+    {
+        "error": "Unable to verify non-string type information",
+        "errorLevel": "warn",
+        "loc": {
+            "start": {
+                "line": 24,
+                "column": 10
+            },
+            "end": {
+                "line": 24,
+                "column": 20
+            }
+        }
+    },
+    {
+        "error": "Method defineExactDuckType used: Cannot create new type in source files.",
+        "errorLevel": "error",
+        "loc": {
+            "start": {
+                "line": 27,
+                "column": 0
+            },
+            "end": {
+                "line": 29,
+                "column": 2
+            }
+        }
+    },
+    {
+        "error": "Method defineRecursiveType used: Cannot create new type in source files.",
+        "errorLevel": "error",
+        "loc": {
+            "start": {
+                "line": 31,
+                "column": 0
+            },
+            "end": {
+                "line": 31,
+                "column": 56
+            }
+        }
+    },
+    {
+        "error": "Type name dinglebop is not a known, or registered type.",
+        "errorLevel": "error",
+        "loc": {
+            "start": {
+                "line": 33,
+                "column": 36
+            },
+            "end": {
+                "line": 33,
+                "column": 47
+            }
+        }
+    }
+]

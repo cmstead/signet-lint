@@ -49,20 +49,44 @@ const loaderMethodMap = {
     default: defaultLoader
 };
 
+const isUndefined = signet.isTypeOf('undefined');
+
 function getLoaderMethod(node, nodeType) {
     const loader = loaderMethodMap[nodeType]
 
-    return typeof loader === 'undefined' ? defaultLoader : loader;
+    return isUndefined(loader) ? defaultLoader : loader;
 }
 
 function loadTypeNode(node, signet, nodeType) {
-    return getLoaderMethod(node, nodeType)(node, signet);
+    const loaderMethod = getLoaderMethod(node, nodeType);
+    return loaderMethod(node, signet);
+}
+
+function loadTypeNodes(typeFileData, signet) {
+    typeFileData.forEach(function (fileNodes) {
+        fileNodes[1].forEach(function (nodeWrapper) {
+            loadTypeNode(nodeWrapper.node, signet, nodeWrapper.type);
+        });
+    });
+}
+
+function isTypeLoader(nodeType) {
+    return !isUndefined(loaderMethodMap[nodeType]);
 }
 
 module.exports = {
+    isTypeLoader: signet.enforce(
+        'nodeType => boolean',
+        isTypeLoader),
+
+    loadTypeNodes: signet.enforce(
+        'typeFileData, signet => undefined',
+        loadTypeNodes),
+
     loadTypeNode: signet.enforce(
         'astNode, signet => variant<null, lintError>',
         loadTypeNode),
+        
     loadTypeName: signet.enforce(
         'typeName, signet => variant<null, errorMessage>',
         loadTypeName)

@@ -4,6 +4,7 @@ var config = {
     cwd: __dirname,
     modulePaths: [
         'bin',
+        'bin/reporters',
         'bin/moduleWrappers',
         'bin/astUtils',
         'bin/fileUtils',

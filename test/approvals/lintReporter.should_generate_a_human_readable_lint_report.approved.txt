@@ -1,0 +1,15 @@
+[
+    "\u001b[31mError:\u001b[39m Method extend used: Cannot create new type in source files. starting at position [7:1]",
+    "\u001b[31mError:\u001b[39m Method subtype used: Cannot create new type in source files. starting at position [8:1]",
+    "\u001b[31mError:\u001b[39m Method alias used: Cannot create new type in source files. starting at position [9:1]",
+    "\u001b[33mWarning:\u001b[39m Unable to verify non-string type information starting at position [13:31]",
+    "\u001b[31mError:\u001b[39m Type name foop is not a known, or registered type. starting at position [16:32]",
+    "\u001b[31mError:\u001b[39m Method defineDependentOperatorOn used: Cannot create new type in source files. starting at position [18:1]",
+    "\u001b[31mError:\u001b[39m Method defineDependentOperatorOn used: Cannot create new type in source files. starting at position [19:1]",
+    "\u001b[31mError:\u001b[39m Method defineDuckType used: Cannot create new type in source files. starting at position [21:1]",
+    "\u001b[31mError:\u001b[39m Type name fleem is not a known, or registered type. starting at position [22:11]",
+    "\u001b[33mWarning:\u001b[39m Unable to verify non-string type information starting at position [24:11]",
+    "\u001b[31mError:\u001b[39m Method defineExactDuckType used: Cannot create new type in source files. starting at position [27:1]",
+    "\u001b[31mError:\u001b[39m Method defineRecursiveType used: Cannot create new type in source files. starting at position [31:1]",
+    "\u001b[31mError:\u001b[39m Type name dinglebop is not a known, or registered type. starting at position [33:37]"
+]

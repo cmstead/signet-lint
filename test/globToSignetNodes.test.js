@@ -2,7 +2,9 @@
 
 const prettyJson = require('./test-utils/prettyJson');
 
-const globToSignetNodes = require('../bin/globToSignetNodes.js');
+const container = require('../container');
+
+const globToSignetNodes = container.build('globToSignetNodes');
 
 require('./test-utils/approvals-config');
 describe('globToSignetNodes', function () {

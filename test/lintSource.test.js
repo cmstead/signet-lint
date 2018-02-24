@@ -3,8 +3,10 @@
 const prettyJson = require('./test-utils/prettyJson');
 const sourceReader = require('./test-utils/sourceReader');
 
-const lintSource = require('../bin/lintSource.js');
-const globToSignetNodes = require('../bin/globToSignetNodes');
+const container = require('../container');
+
+const lintSource = container.build('lintSource');
+const globToSignetNodes = container.build('globToSignetNodes');
 
 require('./test-utils/approvals-config');
 

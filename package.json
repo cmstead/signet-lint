@@ -19,6 +19,7 @@
   "homepage": "https://github.com/cmstead/signet-lint#readme",
   "dependencies": {
     "datafac": "^1.0.0",
+    "dject": "^1.5.0",
     "esprima": "^4.0.0",
     "estraverse": "^4.2.0",
     "glob": "^7.1.2",

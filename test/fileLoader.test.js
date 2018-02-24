@@ -4,11 +4,12 @@
 const prettyJson = require('./test-utils/prettyJson');
 // const sinon = require('sinon');
 
-const fileLoader = require('../bin/fileLoader.js');
+const container = require('../container');
+const fileLoader = container.build('fileLoader');
 
 require('./test-utils/approvals-config');
-describe('fileLoader', function () {
 
+describe('fileLoader', function () {
 
     it('should load source for all files matching glob pattern', function (done) {
         fileLoader

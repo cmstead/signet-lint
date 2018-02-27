@@ -1,4 +1,5 @@
 [
+    "File: ./test/fixtures/testSource.js",
     "\t\u001b[31mError:\u001b[39m Method extend used: Cannot create new type in source files. starting at position [7:1]",
     "\t\u001b[31mError:\u001b[39m Method subtype used: Cannot create new type in source files. starting at position [8:1]",
     "\t\u001b[31mError:\u001b[39m Method alias used: Cannot create new type in source files. starting at position [9:1]",

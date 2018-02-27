@@ -30,7 +30,21 @@ function globber(
         globPatterns(filePatterns, [], callback);
     }
 
+    function buildGlobMap(filePatterns, callback) {
+        globPatterns(filePatterns, [], function(error, filePaths){
+            const globMap = filePaths.reduce(function (result, path) {
+                result[path] = true;
+                return result;
+            }, {});
+
+            callback(error, globMap);
+        });
+    }
+
     return {
+        buildGlobMap: signet.enforce(
+            'array<globPattern>, callback => undefined',
+            buildGlobMap),
         globFiles: signet.enforce(
             'array<globPattern>, callback => undefined',
             globFiles)

@@ -10,7 +10,7 @@ function lintReporter(chalk, signet) {
         const message = error.error;
         const prefix = error.errorLevel === 'error' ? errorPrefix : warnPrefix;
 
-        return `${prefix} ${message} starting at position [${location}]`;
+        return `\t${prefix} ${message} starting at position [${location}]`;
     }
 
     function buildReport(lintErrors) {

@@ -1,0 +1,11 @@
+{
+    "typeFiles": [
+        "./signet-types.js",
+        "type-data/*.js"
+    ],
+    "sourceFiles": ["./bin/**/*.js"],
+    "excludeFiles": [
+        "./bin/typeUtils/typeLoader.js",
+        "./bin/verificationUtils/verifiers.js"
+    ]
+}

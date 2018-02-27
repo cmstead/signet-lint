@@ -10,22 +10,12 @@ const mocha = require('gulp-mocha');
 const sourceFiles = [
     'bin/**/*.js',
     'signet-types.js',
-    'index.js',
     '!node_modules/**'
 ];
 
 const testFiles = [
     'test/**/*.test.js'
 ];
-
-gulp.task('compile', () => {
-    return gulp.src('./index.js')
-        .pipe(babel({
-            presets: ['env']
-        }))
-        .pipe(concat('signet-lint.js'))
-        .pipe(gulp.dest('./dist/'));
-});
 
 gulp.task('lint', () => {
     return gulp.src(sourceFiles)
@@ -47,4 +37,4 @@ gulp.task('test', ['lint', 'pre-test'], function () {
         .pipe(istanbul.enforceThresholds({ thresholds: { global: 80 } }));
 });
 
-gulp.task('build', ['test', 'compile']);
+gulp.task('build', ['test']);

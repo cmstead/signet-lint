@@ -4,7 +4,7 @@ function fileLoader(
     fs,
     globber,
     signet) {
-    
+
     function fileNameToSource(fileName) {
         const source = fs.readFileSync(fileName, { encoding: 'utf8' });
         return [fileName, source];
@@ -17,10 +17,29 @@ function fileLoader(
         });
     }
 
+    const isString = signet.isTypeOf('string');
+
+    function loadIterateableFileData(globPatterns, callback) {
+        globber.globFiles(globPatterns, function (error, files) {
+            let offset = 0;
+            
+            const getPathThenIncrement = () => files[offset++];
+            const getNext = () => 
+                isString(files[offset])
+                    ? fileNameToSource(getPathThenIncrement())
+                    : null;
+
+            callback(error, getNext);
+        });
+    }
+
     return {
         loadFileSource: signet.enforce(
             'array<globPattern>, callback => undefined',
-            loadFileSource)
+            loadFileSource),
+        loadIterateableFileData: signet.enforce(
+            'array<globPattern>, callback => undefined',
+            loadIterateableFileData)
     }
 }
 

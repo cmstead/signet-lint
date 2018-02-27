@@ -7,8 +7,8 @@ const container = require('../container');
 const globToSignetNodes = container.build('globToSignetNodes');
 
 require('./test-utils/approvals-config');
-describe('globToSignetNodes', function () {
 
+describe('globToSignetNodes', function () {
 
     it('should load signet nodes from the ast using file globbing', function (done) {
         globToSignetNodes

@@ -6,6 +6,9 @@
   "scripts": {
     "test": "gulp test"
   },
+  "bin": {
+    "signet-lint": "index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cmstead/signet-lint.git"

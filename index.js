@@ -2,34 +2,25 @@
 
 'use strict';
 
-const chalk = require('chalk');
-const fs = require('fs');
+const actionSwitch = process.argv[2].toLowerCase();
 const container = require('./container');
-const lintAndReportService = container.build('lintAndReportService');
 
-const cwd = process.cwd();
+if (actionSwitch === 'init') {
+    container.build('cliInit').initialize();
+} else if (actionSwitch === '-h' || actionSwitch === 'help') {
+    console.log(`
+Signet-lint is a linter for signet in your project.
 
-const lintConfigSource = fs.readFileSync(cwd + '/.signetlintrc');
-const lintConfig = JSON.parse(lintConfigSource);
+Command:
 
-function outputLintResults(lintResults) {
-    let exitCode = 0;
+signet-lint [init][-h][help]
 
-    lintResults.forEach(function (line) {
-        exitCode = exitCode === 1 || line.toLowerCase().includes('error:') ? 1 : 0;
-        console.log(line);
-    });
+Options:
 
-    process.exit(exitCode);
+init        Creates default .signetlintrc file in current directory
+-h, help    Prints help information
+`);
+
+} else {
+    container.build('cliLint').lintAndReport();
 }
-
-lintAndReportService
-    .reportAsCLI(lintConfig, function (error, results) {
-        if(results.length > 0) {
-            outputLintResults(results);
-        } else {
-            console.log(chalk.green('Lint is green, files are clean!'));
-            process.exit(0);
-        }
-    })
-

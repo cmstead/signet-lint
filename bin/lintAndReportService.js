@@ -64,6 +64,10 @@ function lintAndReportService(
             .reduce(function (result, fileKey) {
                 const lintValues = resultsAsJson[fileKey];
 
+                if(result.length > 0) {
+                    result.push('');
+                }
+
                 result.push('File: ' + fileKey);
                 return result.concat(lintReporter.buildReport(lintValues));
             }, []);

@@ -63,7 +63,11 @@ function cliLint(chalk, fs, lintAndReportService) {
         process.exit(999);
     }
 
-    function lintAndReport() {
+    function lintAndReport(filename) {
+
+        if(typeof filename === 'string') {
+            lintConfig.sourceFiles = [filename];
+        }
 
         lintAndReportService
             .reportAsCLI(lintConfig, function (error, results) {

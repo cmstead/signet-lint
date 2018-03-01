@@ -46,7 +46,7 @@ function cliLint(chalk, fs, lintAndReportService) {
 
     function logResultAndExit(results) {
         let exitCode = results.length > 0
-            ? logLintResults(results, exitCode)
+            ? logLintResults(results)
             : logSuccess();
 
         process.exit(exitCode);

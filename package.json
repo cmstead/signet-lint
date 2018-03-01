@@ -22,6 +22,7 @@
   "homepage": "https://github.com/cmstead/signet-lint#readme",
   "dependencies": {
     "chalk": "^2.3.1",
+    "command-line-args": "^5.0.2",
     "datafac": "^1.0.0",
     "dject": "^1.5.0",
     "esprima": "^4.0.0",

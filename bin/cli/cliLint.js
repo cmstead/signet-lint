@@ -55,6 +55,35 @@ function cliLint(chalk, fs, lintAndReportService) {
         process.exit(exitCode);
     }
 
+    function getExitCode(results) {
+        let exitCode = 0;
+
+        for(let i = 0; i < results.length; i++) {
+            const fileResults = results[i][1];
+
+            for(let j = 0; j < fileResults.length; j++) {
+                if(fileResults[j].errorLevel === 'error') {
+                    exitCode = 1;
+                    break;
+                }
+            }
+
+            if(exitCode === 1) {
+                break;
+            }
+        }
+
+        return exitCode;
+    }
+
+    function logJsonResultAndExit(results) {
+        const exitCode = getExitCode(results);
+
+        console.log(JSON.stringify(results));
+
+        process.exit(exitCode);
+    }
+
     function logErrorAndExit(error) {
         const errorMessage = 'Signet-lint encountered an error: \n' + error.message;
 
@@ -63,11 +92,28 @@ function cliLint(chalk, fs, lintAndReportService) {
         process.exit(999);
     }
 
-    function lintAndReport(filename) {
-
-        if(typeof filename === 'string') {
+    function updateLintConfig(filename) {
+        if (typeof filename === 'string') {
             lintConfig.sourceFiles = [filename];
         }
+    }
+
+    function lintAndReportAsJson(filename) {
+        updateLintConfig(filename);
+
+        lintAndReportService
+            .reportAsJson(lintConfig, function (error, results) {
+                if (error) {
+                    logErrorAndExit(error);
+                } else {
+                    logJsonResultAndExit(results);
+                }
+            });
+    }
+
+    function lintAndReport(filename) {
+
+        updateLintConfig(filename);
 
         lintAndReportService
             .reportAsCLI(lintConfig, function (error, results) {
@@ -81,7 +127,8 @@ function cliLint(chalk, fs, lintAndReportService) {
     }
 
     return {
-        lintAndReport: lintAndReport
+        lintAndReport: lintAndReport,
+        lintAndReportAsJson: lintAndReportAsJson
     };
 
 }

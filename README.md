@@ -55,6 +55,23 @@ Once you have everything set to go, you're ready to start linting!
 
 To lint your project, just run `signet-lint` in the command line from within your project directory, wherever your .signetlintrc file is.  That's it.  It practically does all the work for you! (Which is kind of the point.)
 
+Following is the output from the help screen for further options:
+
+```
+Signet-lint will lint your signet types and useage throughout your project.
+
+Command:
+
+signet-lint [init][help] [--json] [--file <filename>]
+
+Options:
+
+init        Creates default .signetlintrc file in current directory
+help        Prints help information
+--file      Allows linting of single file, still requires configuration, ignores excluded files.
+--json      Produces lint output as JSON
+```
+
 A few important things to note:
 
 - This linter is opinionated. You might get errors from the linter which work fine in code. The goal is to help keep things organized, tidy and well structured.  You might curse the linter, but one day it will catch that type you misspelled.

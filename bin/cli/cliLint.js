@@ -4,9 +4,6 @@ function cliLint(chalk, fs, lintAndReportService) {
 
     const cwd = process.cwd();
 
-    const lintConfigSource = fs.readFileSync(cwd + '/.signetlintrc');
-    const lintConfig = JSON.parse(lintConfigSource);
-
     function compileLintData(lintResults) {
         let lintData = {
             errorsFound: false,
@@ -49,7 +46,7 @@ function cliLint(chalk, fs, lintAndReportService) {
 
     function logResultAndExit(results) {
         let exitCode = results.length > 0
-            ? logLintResults(results, exitCode)
+            ? logLintResults(results)
             : logSuccess();
 
         process.exit(exitCode);
@@ -92,14 +89,21 @@ function cliLint(chalk, fs, lintAndReportService) {
         process.exit(999);
     }
 
-    function updateLintConfig(filename) {
+    function updateLintConfig(lintConfig, filename) {
         if (typeof filename === 'string') {
             lintConfig.sourceFiles = [filename];
         }
     }
 
+    function getLintConfig () {
+        const lintConfigSource = fs.readFileSync(cwd + '/.signetlintrc');
+        return JSON.parse(lintConfigSource);
+    }
+
     function lintAndReportAsJson(filename) {
-        updateLintConfig(filename);
+        const lintConfig = getLintConfig();
+
+        updateLintConfig(lintConfig, filename);
 
         lintAndReportService
             .reportAsJson(lintConfig, function (error, results) {
@@ -112,8 +116,9 @@ function cliLint(chalk, fs, lintAndReportService) {
     }
 
     function lintAndReport(filename) {
+        const lintConfig = getLintConfig();
 
-        updateLintConfig(filename);
+        updateLintConfig(lintConfig, filename);
 
         lintAndReportService
             .reportAsCLI(lintConfig, function (error, results) {

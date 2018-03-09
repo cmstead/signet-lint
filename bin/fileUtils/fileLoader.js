@@ -5,15 +5,42 @@ function fileLoader(
     globber,
     signet) {
 
-    function fileNameToSource(fileName) {
-        const source = fs.readFileSync(fileName, { encoding: 'utf8' });
-        return [fileName, source];
+    function fileNameToSource(fileName, callback) {
+        fs.readFile(fileName, { encoding: 'utf8' }, function (error, source) {
+            callback(error, [fileName, source]);
+        });
+    }
+
+    function buildNextCall(remainingFiles, result, callback) {
+        return function (error, data) {
+            if (error) {
+                callback(error);
+            } else {
+                result.push(data);
+                loadAllFiles(remainingFiles, result, callback);
+            }
+        };
+    }
+
+    function loadAllFiles(fileNames, result, callback) {
+        const nextFile = fileNames[0];
+        const remainingFiles = fileNames.slice(1);
+
+        if (fileNames.length > 0) {
+            const nextCall = buildNextCall(remainingFiles, result, callback);
+            fileNameToSource(nextFile, nextCall);
+        } else {
+            callback(null, result);
+        }
     }
 
     function loadFileSource(globPatterns, callback) {
         globber.globFiles(globPatterns, function (error, files) {
-            const sourceData = files.map(fileNameToSource, []);
-            callback(null, sourceData);
+            if (error) {
+                callback(error);
+            } else {
+                loadAllFiles(files, [], callback);
+            }
         });
     }
 
@@ -22,14 +49,19 @@ function fileLoader(
     function loadIterateableFileData(globPatterns, callback) {
         globber.globFiles(globPatterns, function (error, files) {
             let offset = 0;
-            
-            const getPathThenIncrement = () => files[offset++];
-            const getNext = () => 
-                isString(files[offset])
-                    ? fileNameToSource(getPathThenIncrement())
-                    : null;
 
-            callback(error, getNext);
+            if (error) {
+                callback(error);
+            } else {
+                const getPathThenIncrement = () => files[offset++];
+
+                const getNext = (callback) =>
+                    isString(files[offset])
+                        ? fileNameToSource(getPathThenIncrement(), callback)
+                        : callback(null, null);
+
+                callback(null, getNext);
+            }
         });
     }
 

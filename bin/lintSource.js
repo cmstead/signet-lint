@@ -59,7 +59,7 @@ function lintSource(
             loadTypesAndLint),
 
         verify: signet.enforce(
-            'source => array<lintError>',
+            'source, signet: object => array<lintError>',
             verify)
     };
 }

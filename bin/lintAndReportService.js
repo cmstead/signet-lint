@@ -2,35 +2,64 @@
 
 function lintAndReportService(
     fileLoader,
+    typeLoader,
     globber,
     globToSignetNodes,
     lintReporter,
     lintSource,
-    signet) {
+    signet,
+    signetBuilder) {
 
-    function buildLintJSON(exclusionFiles, nextSource, signetTypeNodes) {
+    function lintNextFile(exclusionFiles, nextSource, localSignet, lintOutput, callback) {
+        nextSource(function (error, fileData) {
+            if (error) {
+                throw new Error(error.message);
+            } else if (fileData !== null) {
+                const currentFileName = fileData[0];
+                const currentSource = fileData[1];
+
+                if (exclusionFiles[currentFileName]) {
+                    lintNextFile(exclusionFiles,
+                        nextSource,
+                        localSignet,
+                        lintOutput,
+                        callback);
+                }
+
+                const lintResult = lintSource.verify(currentSource, localSignet)
+
+                if (lintResult.length > 0) {
+                    lintOutput[currentFileName] = lintResult;
+                }
+
+                lintNextFile(
+                    exclusionFiles,
+                    nextSource,
+                    localSignet,
+                    lintOutput,
+                    callback);
+            } else {
+                callback(null, lintOutput);
+            }
+        });
+    }
+
+    function buildLintJSON(exclusionFiles, nextSource, signetTypeNodes, callback) {
         let lintOutput = {};
-        let currentFile;
 
-        while ((currentFile = nextSource()) !== null) {
-            const currentFileName = currentFile[0];
-
-            if(exclusionFiles[currentFileName]) {
-                continue;
-            }
-
-            const lintResult = lintSource
-                .loadTypesAndLint(signetTypeNodes, currentFile[1]);
-
-            if (lintResult.length > 0) {
-                lintOutput[currentFileName] = lintResult;
-            }
-        }
-
-        return lintOutput;
+        const localSignet = signetBuilder();
+        typeLoader.loadTypeNodes(signetTypeNodes, localSignet);
+        
+        lintNextFile(
+            exclusionFiles,
+            nextSource,
+            localSignet,
+            lintOutput,
+            callback);
     }
 
     function loadAndLintFiles(lintConfig, signetTypeNodes, callback) {
+
         fileLoader
             .loadIterateableFileData(
                 lintConfig.sourceFiles,
@@ -42,9 +71,11 @@ function lintAndReportService(
                     globber.buildGlobMap(
                         excludeFiles,
                         function (error, exclusionFiles) {
-                            const lintOutput = buildLintJSON(exclusionFiles, nextSource, signetTypeNodes);
-
-                            callback(null, lintOutput);
+                            buildLintJSON(
+                                exclusionFiles, 
+                                nextSource, 
+                                signetTypeNodes, 
+                                callback);
                         });
                 });
     }
@@ -64,7 +95,7 @@ function lintAndReportService(
             .reduce(function (result, fileKey) {
                 const lintValues = resultsAsJson[fileKey];
 
-                if(result.length > 0) {
+                if (result.length > 0) {
                     result.push('');
                 }
 
